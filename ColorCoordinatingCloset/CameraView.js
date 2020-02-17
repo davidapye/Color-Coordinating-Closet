@@ -7,6 +7,14 @@ import {
   View,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import {Platform} from 'react-native';
+import storage from '@react-native-firebase/storage';
+import {firebase} from '@react-native-firebase/storage';
+
+const androidConfig = {
+  projectId : 'color-coordinating-closet',
+  apiKey : 'AIzaSyD_5VQxGB_pOsIlHajeukNTo4o39snAEZY',
+};
 
 class CameraView extends Component {
   render() {
@@ -51,6 +59,20 @@ class CameraView extends Component {
       const options = {quality: 0.5, base64: true};
       const data = await this.camera.takePictureAsync(options);
       console.log(data.uri);
+      firebase.initializeApp();
+
+      //things below this line do not work yet
+      const ref = firebase.storage().ref(data.path);
+      const path = '${firebase.storage.Path.Images}/' + data.path;
+      const uploadTask = ref.putFile(path);
+      alert(JSON.stringify(uploadTask));
+
+      const {app} = firebase.storage();
+      alert(JSON.stringify(app));
+
+      //await firebase.storage().ref().putFile(data);
+      //firebase.initializeApp()
+      //alert(JSON.stringify(firebase.storage(Platform.OS ==='ios' ? null : androidConfig, 'ColorCoordinatingCloset',)));
     }
   };
 }
