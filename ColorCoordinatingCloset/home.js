@@ -104,12 +104,12 @@ export default function Playground({navigation}) {
           </View>
           <Text style={styles.text}>Welcome to Color Coordinating Closet</Text>
           <View style={styles.button}>
-            <Button title={'Recommend Outfit'} onPress={pressHandler} />
+            <Button title={'Recommend Outfit'} onPress={() => Alert.alert('Recommend Outfit button pressed')} />
           </View>
           <View style={styles.button}>
             <Button
               title={'Add to Inventory'}
-              onPress={() => Alert.alert('Recommend Outfit button pressed')}
+              onPress={pressHandler}
             />
           </View>
           <View style={styles.button}>
