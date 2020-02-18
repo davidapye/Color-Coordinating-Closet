@@ -85,6 +85,10 @@ export default function Playground({navigation}) {
     navigation.navigate('CameraView');
   };
 
+  const signOut = () => {
+    navigation.push('InitialAuth');
+  }
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -95,7 +99,7 @@ export default function Playground({navigation}) {
           <View style={styles.signOutBtn}>
             <Button
               title={'Sign Out'}
-              onPress={() => Alert.alert('Sign out button pressed')}
+              onPress={signOut}
             />
           </View>
           <Text style={styles.text}>Welcome to Color Coordinating Closet</Text>
