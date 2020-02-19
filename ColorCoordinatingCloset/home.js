@@ -88,6 +88,7 @@ export default function Playground({navigation}) {
   componentDidMount = () => {
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
+    console.log(currentUser);
   }
 
   const pressHandler = () => {
@@ -95,7 +96,17 @@ export default function Playground({navigation}) {
   };
 
   const signOut = () => {
-    navigation.push('InitialAuth');
+    firebase.auth().signOut()
+    .then(function() {
+      navigation.push('InitialAuth');
+    })
+    .catch(function(error) {
+      navigation.push('InitialAuth');
+    });
+  }
+
+  const viewInventory = () => {
+    navigation.navigate('Inventory');
   }
 
   return (
@@ -124,7 +135,7 @@ export default function Playground({navigation}) {
           <View style={styles.button}>
             <Button
               title={'View Inventory'}
-              onPress={() => Alert.alert('View Inventory button pressed')}
+              onPress={viewInventory}
             />
           </View>
         </ScrollView>

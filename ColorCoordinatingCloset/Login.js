@@ -20,7 +20,7 @@ export default class Login extends React.Component {
   }
   goToHome = () => {
     console.log('going home');
-    this.props.navigation.push('home');
+    this.props.navigation.push('Home');
   }
   render() {
     return (

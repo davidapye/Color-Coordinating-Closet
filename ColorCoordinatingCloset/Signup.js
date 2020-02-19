@@ -9,7 +9,7 @@ export default class SignUp extends React.Component {
     .auth()
     .createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
-      this.props.navigation.push('home');
+      this.props.navigation.push('Home');
     })
     .catch(error => this.setState({ errorMessage: error.message }))
   }

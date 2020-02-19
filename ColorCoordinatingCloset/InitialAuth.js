@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 export default class InitialAuth extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
       this.props.navigation.push(user ? 'home' : 'Signup')
     })
   }

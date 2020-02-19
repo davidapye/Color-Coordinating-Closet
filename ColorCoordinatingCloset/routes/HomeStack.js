@@ -5,6 +5,7 @@ import CameraView from '../CameraView';
 import InitialAuth from '../InitialAuth';
 import Login from '../Login';
 import Signup from '../Signup';
+import Inventory from '../Inventory';
 
 // Controller for which view is shown. Home is the default
 
@@ -27,6 +28,9 @@ const screens = {
   Signup: {
     screen: Signup,
     navigationOptions: { header: null }
+  },
+  Inventory: {
+    screen: Inventory
   },
   /*  New views go here */
 };
