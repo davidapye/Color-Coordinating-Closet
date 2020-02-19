@@ -7,14 +7,7 @@ import {
   View,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {Platform} from 'react-native';
-import storage from '@react-native-firebase/storage';
 import {firebase} from '@react-native-firebase/storage';
-
-const androidConfig = {
-  projectId : 'color-coordinating-closet',
-  apiKey : 'AIzaSyD_5VQxGB_pOsIlHajeukNTo4o39snAEZY',
-};
 
 class CameraView extends Component {
   render() {
