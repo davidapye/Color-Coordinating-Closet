@@ -23,6 +23,7 @@ target 'ColorCoordinatingCloset' do
   pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
   pod 'Firebase/Analytics'
   pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
 
   pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'

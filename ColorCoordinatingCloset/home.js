@@ -11,6 +11,8 @@ import {
 
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -81,6 +83,13 @@ const styles = StyleSheet.create({
 });
 
 export default function Playground({navigation}) {
+  state = { currentUser: null }
+
+  componentDidMount = () => {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+  }
+
   const pressHandler = () => {
     navigation.navigate('CameraView');
   };

@@ -7,6 +7,8 @@ import {
 
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
 
 const styles = StyleSheet.create({
   button: {
@@ -30,6 +32,11 @@ const styles = StyleSheet.create({
   },
 });
 export default class InitialAuth extends React.Component {
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.props.navigation.push(user ? 'home' : 'Signup')
+    })
+  }
   goToLogin = () => {
     this.props.navigation.push('Login');
   }
