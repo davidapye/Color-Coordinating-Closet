@@ -6,6 +6,7 @@ import InitialAuth from '../InitialAuth';
 import Login from '../Login';
 import Signup from '../Signup';
 import Inventory from '../Inventory';
+import FlatList from '../FlatList'
 
 // Controller for which view is shown. Home is the default
 
@@ -32,6 +33,10 @@ const screens = {
   Inventory: {
     screen: Inventory
   },
+  FlatList: {
+    screen: FlatList
+  },
+
   /*  New views go here */
 };
 

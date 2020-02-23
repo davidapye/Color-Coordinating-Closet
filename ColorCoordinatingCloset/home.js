@@ -106,7 +106,7 @@ export default function Playground({navigation}) {
   }
 
   const viewInventory = () => {
-    navigation.navigate('Inventory');
+    navigation.navigate('FlatList');
   }
 
   return (
