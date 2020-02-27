@@ -7,26 +7,47 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Modal,
+    Button, Alert,
 } from 'react-native';
 import ImageElement from './ImageElement';
+import {firebase} from '@react-native-firebase/storage';
 
 export default class Inventory extends Component {
     state = {
         modalVisible: false,
         modalImage: require('./img/img1.jpg'),
         images: [
-            require('./img/img1.jpg'),
+/*            require('./img/img1.jpg'),
             require('./img/img2.jpg'),
             require('./img/img3.png'),
             require('./img/img4.png'),
             require('./img/img5.jpg'),
-            require('./img/img6.jpg')
+            require('./img/img6.jpg')*/
         ]
+    }
+
+    componentDidMount() {
+        const ref = firebase.storage().ref('Images/' + firebase.auth().currentUser.uid);
+        ref.listAll().then(function (res) {
+            res.items.forEach(function (itemRef) {
+                 itemRef.getDownloadURL().then(function (url) {
+                    this.setState(prevState =>({
+                        images : [{uri : 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg'}, ...prevState.images],
+                    }));
+                });
+            });
+        });
     }
 
     setModalVisible(visible, imageKey) {
         this.setState({ modalImage: this.state.images[imageKey] });
         this.setState({ modalVisible: visible });
+    }
+
+    addImage(){
+        this.setState(prevState =>({
+            images: [{uri : 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg'}, ...prevState.images]
+        }));
     }
 
     getImage() {
@@ -35,10 +56,11 @@ export default class Inventory extends Component {
 
     render() {
         images = this.state.images.map((val, key) => {
-            return <TouchableWithoutFeedback key={key} 
+            return <TouchableWithoutFeedback key={key}
                 onPress={() => {this.setModalVisible(true, key)}}>
                 <View style={styles.imagewrap}>
-                    <ImageElement imgsource={val}></ImageElement>
+                    <ImageElement imgsource={val}/>
+                    <Button title={'test'} onPress={() => this.addImage()}/>
                 </View>
             </TouchableWithoutFeedback>
         });
