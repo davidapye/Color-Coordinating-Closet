@@ -17,7 +17,7 @@ import {
 import {firebase} from '@react-native-firebase/storage';
 import ImageElement from './ImageElement';
 
-const userImagesRef = firebase.storage().ref('Images/');
+var userImagesRef = firebase.storage().ref('Images/');
 var images = [];
 
 userImagesRef
@@ -57,13 +57,35 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    var that = this;
-    let items = Array.apply(null, Array(images.length)).map((v, i) => {
-      return {id: i, src: images[i]};
-    });
-    that.setState({
-      dataSource: items,
-    });
+    userImagesRef = firebase.storage().ref('Images/');
+    userImagesRef
+      .child(firebase.auth().currentUser.uid)
+      .listAll()
+      .then(message => {
+        message.items.forEach(item => {
+          console.log(item.path);
+          const imageRef = firebase.storage().ref(item.path);
+          imageRef.getDownloadURL().then(img => {
+            var isAdded = false;
+            images.forEach(item => {
+              if (item == img) {
+                isAdded = true;
+              }
+            });
+            if (isAdded == false) {
+              images.push(img);
+            }
+          });
+        });
+        var that = this;
+        let items = Array.apply(null, Array(images.length)).map((v, i) => {
+          return {id: i, src: images[i]};
+        });
+        that.setState({
+          dataSource: items,
+        });
+        console.log('Images loaded');
+      });
   }
   render() {
     return (
