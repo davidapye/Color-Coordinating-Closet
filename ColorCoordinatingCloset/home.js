@@ -83,31 +83,37 @@ const styles = StyleSheet.create({
 });
 
 export default function Playground({navigation}) {
-  state = { currentUser: null }
+  state = {currentUser: null};
 
   componentDidMount = () => {
-    const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
+    const {currentUser} = firebase.auth();
+    this.setState({currentUser});
     console.log(currentUser);
-  }
+  };
 
   const pressHandler = () => {
     navigation.navigate('CameraView');
   };
 
   const signOut = () => {
-    firebase.auth().signOut()
-    .then(function() {
-      navigation.push('InitialAuth');
-    })
-    .catch(function(error) {
-      navigation.push('InitialAuth');
-    });
-  }
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        navigation.push('InitialAuth');
+      })
+      .catch(function(error) {
+        navigation.push('InitialAuth');
+      });
+  };
 
   const viewInventory = () => {
     navigation.navigate('FlatList');
-  }
+  };
+
+  const recommendOutfit = () => {
+    navigation.navigate('ReturnOutfit', {text: 'test this'});
+  };
 
   return (
     <>
@@ -117,26 +123,17 @@ export default function Playground({navigation}) {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.signOutBtn}>
-            <Button
-              title={'Sign Out'}
-              onPress={signOut}
-            />
+            <Button title={'Sign Out'} onPress={signOut} />
           </View>
           <Text style={styles.text}>Welcome to Color Coordinating Closet</Text>
           <View style={styles.button}>
-            <Button title={'Recommend Outfit'} onPress={() => Alert.alert('Recommend Outfit button pressed')} />
+            <Button title={'Recommend Outfit'} onPress={recommendOutfit} />
           </View>
           <View style={styles.button}>
-            <Button
-              title={'Add to Inventory'}
-              onPress={pressHandler}
-            />
+            <Button title={'Add to Inventory'} onPress={pressHandler} />
           </View>
           <View style={styles.button}>
-            <Button
-              title={'View Inventory'}
-              onPress={viewInventory}
-            />
+            <Button title={'View Inventory'} onPress={viewInventory} />
           </View>
         </ScrollView>
       </SafeAreaView>
