@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>404850920732-aktjsakoq5tsbv1aov4qotqa9fghnjsl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.404850920732-aktjsakoq5tsbv1aov4qotqa9fghnjsl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB39aSNh45pHGxtsak5DA3nriRwnnj6-m8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>404850920732</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ColorCoordinatingCloset</string>
+	<key>PROJECT_ID</key>
+	<string>carbon-inkwell-271715</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carbon-inkwell-271715.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:404850920732:ios:4d57d8db37db8eefe03ed9</string>
+	<key>DATABASE_URL</key>
+	<string>https://carbon-inkwell-271715.firebaseio.com</string>
+</dict>
+</plist>
