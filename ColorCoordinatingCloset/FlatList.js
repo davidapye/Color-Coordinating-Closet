@@ -94,7 +94,13 @@ export default class App extends Component {
           data={this.state.dataSource}
           renderItem={({item}) => (
             <View style={{flex: 1, flexDirection: 'column', margin: 1}}>
-              <Image style={styles.imageThumbnail} source={{uri: item.src}} />
+              <TouchableOpacity onPress={(event) => {
+                        // onPress event fires with an event object
+                        const { navigate } = this.props.navigation;
+                        navigate('ReturnOutfit', { imageUrl: item.src });
+                    }}>
+                <Image style={styles.imageThumbnail} source={{uri: item.src}} />
+              </TouchableOpacity>
             </View>
           )}
           //Setting the number of column

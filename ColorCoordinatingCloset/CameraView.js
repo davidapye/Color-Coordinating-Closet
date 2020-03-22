@@ -54,6 +54,7 @@ class CameraView extends Component {
       console.log(data.uri);
 
       const filename = data.uri.split('/').pop();
+      // still need to upload with user id as examples in db have
       const upload = firebase.storage().ref('Images/' + firebase.auth().currentUser.uid +'/' +filename).putFile(data.uri).then(file => {file.ref; console.log('Photo uploaded');});
     }
   };

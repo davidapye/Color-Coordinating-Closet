@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   FlatList,
+  ActivityIndicator,
   Image,
   Text,
 } from 'react-native';
@@ -12,6 +13,7 @@ import {
 
 export default class RecommendedOutfit extends Component {
   state = {
+    isLoading: true,
     modalVisible: false,
     modalImage: require('./img/img1.jpg'),
     images: [
@@ -24,12 +26,65 @@ export default class RecommendedOutfit extends Component {
     ],
   };
 
+  constructor(props) {
+    super(props);
+    // get url of selected image from flatlist screen
+    var originalImageUrl = props.navigation.state.params.imageUrl;
+    console.log(originalImageUrl);
+    this.state.images[0] = originalImageUrl;
+    console.log(this.state.images[0]);
+
+    // get matching colors to current image
+    // call harrisons function sending in image url from flatlist
+
+    // get matching images based on returned colors
+    // 1. need to call firebase db and get list images with colors for user
+    // 2. reduce list to contain only matching colors 
+    
+  }
+
+  componentDidMount(){
+    // return fetch('https://reactnative.dev/movies.json')
+    //   .then((response) => response.json())
+    //   .then((responseJson) => {
+
+    //     this.setState({
+    //       isLoading: false,
+    //       images: responseJson.movies,
+    //     }, function(){
+
+    //     });
+
+    //   })
+    //   .catch((error) =>{
+    //     console.error(error);
+    //   });
+  }
+
   render() {
+    if(this.state.isLoading){
+      return(
+        <View style={styles.mainView}>
+          <View style={styles.container}>
+            <Text style={{fontSize: 36}}>Selected Clothing</Text>
+            <Image style={styles.imageThumbnail} source={this.state.images[0]} />
+          </View>
+
+          <Text style={{fontSize: 36, alignSelf: 'center', top: 40}}>
+            We recommend
+          </Text>
+          <View style={styles.container}>
+            <ActivityIndicator/>
+          </View>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.mainView}>
         <View style={styles.container}>
           <Text style={{fontSize: 36}}>Selected Clothing</Text>
-          <Image source={this.state.images[0]} style={styles.selectedImage} />
+          <Image style={styles.imageThumbnail} source={this.state.images[0]} />
         </View>
 
         <Text style={{fontSize: 36, alignSelf: 'center', top: 40}}>
