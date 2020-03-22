@@ -67,7 +67,7 @@ export default class RecommendedOutfit extends Component {
         <View style={styles.mainView}>
           <View style={styles.container}>
             <Text style={{fontSize: 36}}>Selected Clothing</Text>
-            <Image style={styles.imageThumbnail} source={this.state.images[0]} />
+            <Image style={styles.imageThumbnail} source={{uri: this.state.images[0]}} />
           </View>
 
           <Text style={{fontSize: 36, alignSelf: 'center', top: 40}}>
