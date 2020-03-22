@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "404850920732",
+    "firebase_url": "https://carbon-inkwell-271715.firebaseio.com",
+    "project_id": "carbon-inkwell-271715",
+    "storage_bucket": "carbon-inkwell-271715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404850920732:android:619b534641898872e03ed9",
+        "android_client_info": {
+          "package_name": "com.colorcoordinatingcloset"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404850920732-ba4btju2qntb6cthjhjrv7rak3ni36h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnosL-nI_SjLPrKY7iP-1QQBIk9D9SIuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404850920732-ba4btju2qntb6cthjhjrv7rak3ni36h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
