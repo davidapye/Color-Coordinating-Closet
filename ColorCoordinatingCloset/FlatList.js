@@ -57,36 +57,40 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    userImagesRef = firebase.storage().ref('Images/');
-    userImagesRef
-      .child(firebase.auth().currentUser.uid)
-      .listAll()
-      .then(message => {
-        message.items.forEach(item => {
-          console.log(item.path);
-          const imageRef = firebase.storage().ref(item.path);
-          imageRef.getDownloadURL().then(img => {
-            var isAdded = false;
-            images.forEach(item => {
-              if (item == img) {
-                isAdded = true;
-              }
-            });
-            if (isAdded == false) {
-              images.push(img);
-            }
-          });
-        });
-        var that = this;
-        let items = Array.apply(null, Array(images.length)).map((v, i) => {
-          return {id: i, src: images[i]};
-        });
-        that.setState({
-          dataSource: items,
-        });
-        console.log('Images loaded');
-      });
+    this.getImagesForUser()
   }
+
+  async getImagesForUser() {
+    // get all images for user
+    userImagesRef = firebase.storage().ref('Images/');
+    userImagesRaw = await userImagesRef
+      .child(firebase.auth().currentUser.uid)
+      .listAll();
+    userImagesRefs = [];
+    userImagesRaw.items.forEach(item => {
+      userImagesRefs.push(item.path);
+    })
+    //console.log("user images refs");
+    //console.log(userImagesRefs);
+    //console.log(userImagesRefs.length);
+    
+    // dowloading image urls
+    userImagesUrls = [];
+    for (const itemPath of userImagesRefs) {
+      const imageRef = firebase.storage().ref(itemPath);
+      url = await imageRef.getDownloadURL();
+      userImagesUrls.push({src: url, path: itemPath});
+    }
+    console.log("user image urls");
+    console.log(userImagesUrls);
+
+    this.setState({
+      dataSource: userImagesUrls,
+    }, function(){
+
+    });
+  }
+
   render() {
     return (
       <View style={styles.MainContainer}>
@@ -97,7 +101,7 @@ export default class App extends Component {
               <TouchableOpacity onPress={(event) => {
                         // onPress event fires with an event object
                         const { navigate } = this.props.navigation;
-                        navigate('ReturnOutfit', { imageUrl: item.src });
+                        navigate('ReturnOutfit', { imageUrl: item });
                     }}>
                 <Image style={styles.imageThumbnail} source={{uri: item.src}} />
               </TouchableOpacity>
