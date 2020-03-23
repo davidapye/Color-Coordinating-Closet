@@ -68,7 +68,10 @@ export default class RecommendedOutfit extends Component {
       this.getImagesForUser(responseJson);
       //console.log("done getting images");
       
-    })
+    }).catch((error) => {
+      console.log("error");
+      console.log(error);
+    });
   }
 
   async getImagesForUser(matchingFilenames) {
