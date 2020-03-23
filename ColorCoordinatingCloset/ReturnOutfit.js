@@ -9,57 +9,118 @@ import {
   Text,
 } from 'react-native';
 //import all the components we will need
+import {firebase} from '@react-native-firebase/storage';
 
+var userImagesRef = firebase.storage().ref('Images/');
+var images = [];
+userImagesRef
+  .child(firebase.auth().currentUser.uid)
+  .listAll()
+  .then(message => {
+    let id = 0;
+    message.items.forEach(item => {
+      console.log(item.path);
+      const imageRef = firebase.storage().ref(item.path);
+      imageRef.getDownloadURL().then(img => {
+        images.push(img);
+        id++;
+      });
+    });
+    console.log('message printed');
+  });
 
 export default class RecommendedOutfit extends Component {
+  
   state = {
     isLoading: true,
     modalVisible: false,
-    modalImage: require('./img/img1.jpg'),
-    images: [
-      require('./img/img1.jpg'),
-      require('./img/img2.jpg'),
-      require('./img/img3.png'),
-      require('./img/img4.png'),
-      require('./img/img5.jpg'),
-      require('./img/img6.jpg'),
-    ],
+    modalImage: '',
   };
 
   constructor(props) {
     super(props);
     // get url of selected image from flatlist screen
-    var originalImageUrl = props.navigation.state.params.imageUrl;
-    console.log(originalImageUrl);
-    this.state.images[0] = originalImageUrl;
-    console.log(this.state.images[0]);
+    var originalImageItem = props.navigation.state.params.imageUrl;
+    //console.log(originalImageUrl);
+    this.state.originalImageItem = originalImageItem;
 
-    // get matching colors to current image
-    // call harrisons function sending in image url from flatlist
+    path = this.state.originalImageItem.path;
+    pathParts = path.split("/");
+    filename = pathParts[2];
+    this.state.originalImageFilename = filename;
+  }
 
-    // get matching images based on returned colors
-    // 1. need to call firebase db and get list images with colors for user
-    // 2. reduce list to contain only matching colors 
+  async componentDidMount(){
+    return fetch('https://us-central1-carbon-inkwell-271715.cloudfunctions.net/matchClothes', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        User: '5z4Q2XRZ26MElhMfz2A327DBcyZ2',
+        Filename: this.state.originalImageFilename,
+      }),
+    }).then((response) => response.json()).then((responseJson) => {
+      console.log("josn");
+      console.log(responseJson);
+      //console.log("getting images for user");
+      this.getImagesForUser(responseJson);
+      //console.log("done getting images");
+      
+    })
+  }
+
+  async getImagesForUser(matchingFilenames) {
+    // get all images for user
+    userImagesRef = firebase.storage().ref('Images/');
+    userImagesRaw = await userImagesRef
+      .child(firebase.auth().currentUser.uid)
+      .listAll();
+    userImagesRefs = [];
+    userImagesRaw.items.forEach(item => {
+      userImagesRefs.push(item.path);
+    })
+    console.log("user images refs");
+    console.log(userImagesRefs);
+    console.log(userImagesRefs.length);
+
+    //matching all user images to the ones received from function
+    matchingRefs = []
+    console.log("starting");
+    userImagesRefs.forEach(itemPath => {
+      console.log(itemPath);
+      matchingFilenames.forEach(filename => {
+        console.log(filename);
+        if (itemPath.includes(filename)) {
+          console.log("matched");
+          matchingRefs.push(itemPath);
+        }
+      });
+    });
+    console.log("matching items count");
+    console.log(matchingRefs.length);
     
+    // dowloading image urls
+    userImagesUrls = [];
+    for (const itemPath of matchingRefs) {
+      const imageRef = firebase.storage().ref(itemPath);
+      url = await imageRef.getDownloadURL();
+      if (!(this.state.originalImageItem.src == url)) {
+        userImagesUrls.push(url);
+      }
+    }
+    console.log("user image urls");
+    console.log(userImagesUrls);
+
+    this.setState({
+      isLoading: false,
+      dataSource: userImagesUrls,
+    }, function(){
+
+    });
   }
 
-  componentDidMount(){
-    // return fetch('https://reactnative.dev/movies.json')
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-
-    //     this.setState({
-    //       isLoading: false,
-    //       images: responseJson.movies,
-    //     }, function(){
-
-    //     });
-
-    //   })
-    //   .catch((error) =>{
-    //     console.error(error);
-    //   });
-  }
 
   render() {
     if(this.state.isLoading){
@@ -67,7 +128,7 @@ export default class RecommendedOutfit extends Component {
         <View style={styles.mainView}>
           <View style={styles.container}>
             <Text style={{fontSize: 36}}>Selected Clothing</Text>
-            <Image style={styles.imageThumbnail} source={{uri: this.state.images[0]}} />
+            <Image style={styles.imageThumbnail} source={{uri: this.state.originalImageItem.src}} />
           </View>
 
           <Text style={{fontSize: 36, alignSelf: 'center', top: 40}}>
@@ -79,12 +140,12 @@ export default class RecommendedOutfit extends Component {
         </View>
       )
     }
-
+    console.log("running alt");
     return (
       <View style={styles.mainView}>
         <View style={styles.container}>
           <Text style={{fontSize: 36}}>Selected Clothing</Text>
-          <Image style={styles.imageThumbnail} source={this.state.images[0]} />
+          <Image style={styles.imageThumbnail} source={{uri: this.state.originalImageItem.src}} />
         </View>
 
         <Text style={{fontSize: 36, alignSelf: 'center', top: 40}}>
@@ -92,16 +153,17 @@ export default class RecommendedOutfit extends Component {
         </Text>
         <FlatList
           style={styles.flatList}
-          data={this.state.images}
+          data={this.state.dataSource}
           renderItem={({item}) => (
             <View style={{flex: 1, flexDirection: 'column', margin: 1}}>
-              <Image style={styles.imageThumbnail} source={item} />
+              <Image style={styles.imageThumbnail} source={{uri: item}} />
             </View>
           )}
           //Setting the number of column
           numColumns={3}
           keyExtractor={(item, index) => index.toString()}
         />
+        
       </View>
     );
   }
