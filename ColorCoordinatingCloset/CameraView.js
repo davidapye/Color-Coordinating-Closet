@@ -56,6 +56,24 @@ class CameraView extends Component {
       const filename = data.uri.split('/').pop();
       // still need to upload with user id as examples in db have
       const upload = firebase.storage().ref('Images/' + firebase.auth().currentUser.uid +'/' +filename).putFile(data.uri).then(file => {file.ref; console.log('Photo uploaded');});
+
+      const image_data = new FormData();
+      image_data.append('image', {
+        name: data.filename,
+        uri: data.uri,
+        type: data.type,
+      });
+      const test = fetch('https://api.imagga.com/v2/colors', {
+        method: 'post',
+        headers: {
+          'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+        },
+        body: image_data,
+      }).then((response) => {
+        console.log(response);
+      }).catch(exceptoin =>{
+        console.log(exceptoin);
+      });
     }
   };
 }
