@@ -58,22 +58,53 @@ class CameraView extends Component {
       const upload = firebase.storage().ref('Images/' + firebase.auth().currentUser.uid +'/' +filename).putFile(data.uri).then(file => {file.ref; console.log('Photo uploaded');});
 
       const image_data = new FormData();
-      image_data.append('image', {
+      image_data.append('photo', {
         name: data.filename,
         uri: data.uri,
         type: data.type,
       });
-      const test = fetch('https://api.imagga.com/v2/colors', {
+
+      fetch('https://us-central1-carbon-inkwell-271715.cloudfunctions.net/testHttps',{
         method: 'post',
         headers: {
-          'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
-        body: image_data,
-      }).then((response) => {
+        body: image_data
+      }).then(response =>{
         console.log(response);
-      }).catch(exceptoin =>{
-        console.log(exceptoin);
+      }).catch(exception =>{
+        console.log(exception);
       });
+
+      // fetch('https://api.imagga.com/v2/colors', {
+      //   method: 'post',
+      //   body: image_data,
+      //   headers: {
+      //     'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+      //     'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+      //     'Content-Length': '<calculated when request is sent>',
+      //     'Host': '<calculated when request is sent>'
+      //   },
+      // }).then(res =>{
+      //   console.log(res);
+      // }).catch(exception =>{
+      //   console.log(exception);
+      // });
+
+      // const test = fetch('https://api.imagga.com/v2/colors', {
+      //   method: 'post',
+      //   headers: {
+      //     'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+      //   },
+      //   body: image_data,
+      // }).then((response) => {
+      //   console.log('response');
+      //   console.log(response);
+      // }).catch(exceptoin =>{
+      //   console.log('expection');
+      //   console.log(exceptoin);
+      // });
     }
   };
 }
