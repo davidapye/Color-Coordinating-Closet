@@ -108,7 +108,7 @@ export default function Playground({navigation}) {
   };
 
   const viewInventory = () => {
-    navigation.navigate('FlatList');
+    navigation.navigate('Inventory');
   };
 
   const recommendOutfit = () => {
@@ -126,9 +126,9 @@ export default function Playground({navigation}) {
             <Button title={'Sign Out'} onPress={signOut} />
           </View>
           <Text style={styles.text}>Welcome to Color Coordinating Closet</Text>
-          <View style={styles.button}>
-            <Button title={'Recommend Outfit'} onPress={recommendOutfit} />
-          </View>
+          {/*<View style={styles.button}>*/}
+          {/*  <Button title={'Recommend Outfit'} onPress={recommendOutfit} />*/}
+          {/*</View>*/}
           <View style={styles.button}>
             <Button title={'Add to Inventory'} onPress={pressHandler} />
           </View>

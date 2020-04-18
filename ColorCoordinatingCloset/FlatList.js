@@ -52,7 +52,7 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      dataSource: {},
+      dataSource: [],
     };
   }
 
@@ -73,7 +73,7 @@ export default class App extends Component {
     //console.log("user images refs");
     //console.log(userImagesRefs);
     //console.log(userImagesRefs.length);
-    
+
     // dowloading image urls
     userImagesUrls = [];
     for (const itemPath of userImagesRefs) {

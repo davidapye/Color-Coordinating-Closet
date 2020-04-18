@@ -30,7 +30,7 @@ userImagesRef
   });
 
 export default class RecommendedOutfit extends Component {
-  
+
   state = {
     isLoading: true,
     modalVisible: false,
@@ -58,7 +58,7 @@ export default class RecommendedOutfit extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        User: '5z4Q2XRZ26MElhMfz2A327DBcyZ2',
+        User: firebase.auth().currentUser.uid,
         Filename: this.state.originalImageFilename,
       }),
     }).then((response) => response.json()).then((responseJson) => {
@@ -67,7 +67,7 @@ export default class RecommendedOutfit extends Component {
       //console.log("getting images for user");
       this.getImagesForUser(responseJson);
       //console.log("done getting images");
-      
+
     }).catch((error) => {
       console.log("error");
       console.log(error);
@@ -103,7 +103,7 @@ export default class RecommendedOutfit extends Component {
     });
     console.log("matching items count");
     console.log(matchingRefs.length);
-    
+
     // dowloading image urls
     userImagesUrls = [];
     for (const itemPath of matchingRefs) {
@@ -166,7 +166,7 @@ export default class RecommendedOutfit extends Component {
           numColumns={3}
           keyExtractor={(item, index) => index.toString()}
         />
-        
+
       </View>
     );
   }
