@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 import firebase from '@react-native-firebase/app';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import '@react-native-firebase/auth';
 
 export default class Login extends React.Component {
@@ -25,7 +26,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Login</Text>
+        <Text style={styles.text}>Login</Text>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
@@ -45,7 +46,9 @@ export default class Login extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button title="Login" onPress={this.handleLogin} />
+        <View style={styles.button}>
+          <Button title="Submit" onPress={this.handleLogin} />
+        </View>
         <Button
           title="Don't have an account? Sign Up"
           onPress={() => this.props.navigation.push('Signup')}
@@ -66,5 +69,23 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     marginTop: 8
+  },
+  button: {
+    marginTop: 32,
+    backgroundColor: Colors.light,
+    borderRadius: 100,
+    width: '74%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 40,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: Colors.black,
+    paddingBottom: 40,
+    paddingTop: 96,
+    paddingHorizontal: 32,
+    backgroundColor: Colors.lighter,
   }
 })
