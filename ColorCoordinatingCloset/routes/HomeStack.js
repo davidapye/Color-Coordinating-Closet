@@ -20,7 +20,7 @@ const screens = {
     screen: Home,
     navigationOptions: { header: null }
   },
-  CameraView: {
+  Camera: {
     screen: CameraView,
   },
   Login: {

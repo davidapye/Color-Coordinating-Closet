@@ -7,16 +7,23 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from 'react-native';
 
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
+import ImageElement from './ImageElement';
 
+const homeImg = require('./img/CCC.jpg');
 const styles = StyleSheet.create({
+  homeImg: {
+    width: "100%",
+    height: 400,
+  },
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: Colors.white,
   },
   engine: {
     position: 'absolute',
@@ -76,9 +83,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.black,
     paddingBottom: 40,
-    paddingTop: 96,
+    paddingTop: 94,
     paddingHorizontal: 32,
-    backgroundColor: Colors.lighter,
   },
 });
 
@@ -92,7 +98,7 @@ export default function Playground({navigation}) {
   };
 
   const pressHandler = () => {
-    navigation.navigate('CameraView');
+    navigation.navigate('Camera');
   };
 
   const signOut = () => {
@@ -119,23 +125,42 @@ export default function Playground({navigation}) {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.signOutBtn}>
-            <Button title={'Sign Out'} onPress={signOut} />
+        <View>
+          <ScrollView
+            scrollEnabled={false}
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <View style={styles.signOutBtn}>
+              <Button
+                title={'Sign Out'}
+                onPress={signOut}
+                color={Colors.black}
+              />
+            </View>
+            <View>
+              <Text style={styles.text}>
+                Welcome to Color Coordinating Closet
+              </Text>
+            </View>
+            <View style={styles.button}>
+              <Button
+                title={'Add to Inventory'}
+                onPress={pressHandler}
+                color={Colors.black}
+              />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title={'View Inventory'}
+                onPress={viewInventory}
+                color={Colors.black}
+              />
+            </View>
+          </ScrollView>
+          <View>
+            <Image source={homeImg} style={styles.homeImg}/>
           </View>
-          <Text style={styles.text}>Welcome to Color Coordinating Closet</Text>
-          {/*<View style={styles.button}>*/}
-          {/*  <Button title={'Recommend Outfit'} onPress={recommendOutfit} />*/}
-          {/*</View>*/}
-          <View style={styles.button}>
-            <Button title={'Add to Inventory'} onPress={pressHandler} />
-          </View>
-          <View style={styles.button}>
-            <Button title={'View Inventory'} onPress={viewInventory} />
-          </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
     </>
   );
