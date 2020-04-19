@@ -20,21 +20,24 @@ import ImageElement from './ImageElement';
 var userImagesRef = firebase.storage().ref('Images/');
 var images = [];
 
-userImagesRef
-  .child(firebase.auth().currentUser.uid)
-  .listAll()
-  .then(message => {
-    let id = 0;
-    message.items.forEach(item => {
-      console.log(item.path);
-      const imageRef = firebase.storage().ref(item.path);
-      imageRef.getDownloadURL().then(img => {
-        images.push(img);
-        id++;
+if(firebase.auth().currentUser != null) {
+  console.log(firebase.auth().currentUser.uid);
+  userImagesRef
+      .child(firebase.auth().currentUser.uid)
+      .listAll()
+      .then(message => {
+        let id = 0;
+        message.items.forEach(item => {
+          console.log(item.path);
+          const imageRef = firebase.storage().ref(item.path);
+          imageRef.getDownloadURL().then(img => {
+            images.push(img);
+            id++;
+          });
+        });
+        console.log('message printed');
       });
-    });
-    console.log('message printed');
-  });
+}
 
 var myUrl = null;
 
