@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {firebase} from '@react-native-firebase/storage';
+import * as RNFS from 'react-native-fs';
 
 class CameraView extends Component {
   render() {
@@ -57,7 +58,57 @@ class CameraView extends Component {
       // still need to upload with user id as examples in db have
       const upload = firebase.storage().ref('Images/' + firebase.auth().currentUser.uid +'/' +filename).putFile(data.uri).then(file => {file.ref; console.log('Photo uploaded');});
 
-      const image_data = new FormData();
+      /*var uploadUrl = 'https://api.imagga.com/v2/colors';
+      var files = [
+          {
+              name: 'image',
+              filename: data.filename,
+              filepath: data.uri,
+              filetype: data.type
+          }
+      ];
+      var uploadBegin = (response) =>{
+          var jobId = response.jobId;
+          console.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
+      };
+      var uploadProgress = (response) =>{
+        var percentage = Math.floor((response.totalBytesSent/response.totalBytesExpectedToSend) * 100);
+        console.log('UPLOAD IS ' + percentage + '% DONE!');
+      };
+      RNFS.uploadFiles({
+          toUrl: uploadUrl,
+          files: files,
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+          },
+          begin: uploadBegin,
+          progress: uploadProgress,
+      }).promise.then(response =>{
+          console.log(response.body);
+      }).catch(error =>{
+          console.log(error);
+      });*/
+
+      var formData = new FormData();
+      formData.append('image_base64', data.base64);
+      fetch('https://api.imagga.com/v2/colors', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Basic YWNjXzQwNTFiMzU3OTM1ODFhNDo5ZjJlZjI1YWM5ZjI1YzI0MTM2MDEyYWNkOWE3MzU4YQ==',
+          },
+          body: formData,
+      }).then(response => response.json())
+          .then(responseData =>{
+              console.log(responseData.result.colors.foreground_colors);
+          }
+      ).catch(ex =>{
+          console.log(ex);
+      });
+
+      /*const image_data = new FormData();
       image_data.append('photo', {
         name: data.filename,
         uri: data.uri,
@@ -65,9 +116,8 @@ class CameraView extends Component {
       });
 
       fetch('https://us-central1-carbon-inkwell-271715.cloudfunctions.net/testHttps',{
-        method: 'post',
+        method: 'POST',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
         body: image_data
@@ -75,7 +125,7 @@ class CameraView extends Component {
         console.log(response);
       }).catch(exception =>{
         console.log(exception);
-      });
+      });*/
 
       // fetch('https://api.imagga.com/v2/colors', {
       //   method: 'post',

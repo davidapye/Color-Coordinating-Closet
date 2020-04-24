@@ -16,16 +16,19 @@
     "@react-native-firebase/storage": "^6.3.4",
     "@react-navigation/native": "^5.0.0",
     "@react-navigation/stack": "^5.0.0",
+    "fs": "0.0.1-security",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-camera": "^3.16.0",
+    "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.5.6",
     "react-native-image-crop-picker": "^0.26.2",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.2",
     "react-native-screens": "^2.0.0-beta.2",
     "react-navigation": "^4.1.1",
-    "react-navigation-stack": "^2.1.1"
+    "react-navigation-stack": "^2.1.1",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@babel/core": "7.8.3",
